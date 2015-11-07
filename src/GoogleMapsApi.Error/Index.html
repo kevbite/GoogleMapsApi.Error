@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Getting GoogleMapsApi Package To Error</title>
+</head>
+<body>
+    <div>
+        <input type="button" id="send1" value="Test Async" />
+        <input type="button" id="send2" value="Test Sync" />
+        <div id="response"></div>
+    </div>
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>
+
+    <script src="signalr/hubs"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.testHub;
+
+            $.connection.hub.start().done(function () {
+                $('#response').text('Ready!');
+
+                $('#send1').click(function () {
+                    chat.server.searchGooglePlacesAsync().done(function (result) {
+                        $('#response').text(JSON.stringify(result));
+                    });
+                });
+
+                $('#send2').click(function () {
+                    chat.server.searchGooglePlacesSync().done(function (result) {
+                        $('#response').text(JSON.stringify(result));
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
